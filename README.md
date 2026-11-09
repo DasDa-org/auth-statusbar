@@ -1,6 +1,6 @@
 # auth-statusbar
 
-Zentrale, rein präsentationale Statuszeilen-Komponente für die PHP/Docker-Apps im `C:\Projekte`-Workspace
+Zentrale, rein präsentationale Statuszeilen-Komponente für die PHP/Docker-Apps im Workspace
 (HTML-Startseite, checklisten, adventskalender-2025, systeminfo-tool, wochendisposition, ...).
 
 Zweck: die **Benutzerverwaltungs-Elemente** (Abmelden, Profil, Benutzerverwaltung) sollen in identischer Form
