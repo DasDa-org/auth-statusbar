@@ -131,7 +131,7 @@ if (!function_exists('auth_darktheme_build')) {
         $inlineKeys = array_keys($inline);
         sort($inlineKeys);
 
-        $key = md5($source . "\0" . implode("\0", $inlineKeys) . "\0v8" . implode(',', array_keys($reserved)));
+        $key = md5($source . "\0" . implode("\0", $inlineKeys) . "\0v9" . implode(',', array_keys($reserved)));
         $cacheFile = sys_get_temp_dir() . '/auth-darktheme-' . $key . '.css';
         if (is_file($cacheFile)) {
             return (string) file_get_contents($cacheFile);
@@ -535,6 +535,12 @@ if (!function_exists('auth_dt_decls')) {
                 $role = auth_dt_prop_role($prop);
             }
             if ($role === null) {
+                continue;
+            }
+            // "background:none/transparent": im Dunkelmodus mit gleicher Selektor-Spezifitaet wiederholen, sonst
+            // ueberstimmt eine allgemeinere (umgerechnete) Regel wie "button{background:#009EE0}" die speziellere Hell-Regel
+            if ($role === 'bg' && preg_match('~^(none|transparent|inherit|unset|initial)$~i', $value)) {
+                $out .= $prop . ':' . $value . (($important || $forceImportant) ? '!important' : '') . ';';
                 continue;
             }
             $mapped = auth_dt_map_value($value, $role);
