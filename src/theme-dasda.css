@@ -166,3 +166,9 @@ html.theme-dasda .wide-toggle,
 html.theme-dasda [class*="-fab"] {
     border-radius: 50% !important;
 }
+
+/* ---------- Seitentitel im Menue-Konfigurator ohne DAS-DA-Banner: auf hellem/dunklem Grund lesbar ---------- */
+html.theme-dasda body.builder-page:not(.theme-dasda) h1 {
+    color: var(--ds-text);
+    text-shadow: none;
+}

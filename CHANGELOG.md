@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.5.2
+
+- Menue-Konfigurator ohne DAS-DA-Banner: Seitentitel nutzt `--ds-text` (war weiss auf hellem Grund).
+
 ## v3.5.0
 
 - Design ueberarbeitet: schlank, dezent gerundet (4-10 px statt eckig), keine Grossbuchstaben mehr bei Buttons/Dialogen/Tabellenkoepfen. Markenkern bleibt (dunkles Kopfband mit Schraegkante, blauer Akzentbalken).
