@@ -1,5 +1,13 @@
 # Changelog
 
+## v3.5.0
+
+- Design ueberarbeitet: schlank, dezent gerundet (4-10 px statt eckig), keine Grossbuchstaben mehr bei Buttons/Dialogen/Tabellenkoepfen. Markenkern bleibt (dunkles Kopfband mit Schraegkante, blauer Akzentbalken).
+- Semantische Farbtokens `--ds-*` (Hell + Dunkel) in `design-system.css`; die bisherigen Tokens (`--btn-*`, `--text-muted`, `--border-color` ...) folgen ihnen. Alle Text/Grund-Paare erfuellen WCAG AA (Text >= 4,5:1, Eingaberahmen >= 3:1, geprueft per Skript).
+- Ein Akzentblau `#0071a8` (weisse Schrift 5,3:1) fuer Buttons/Links; `#009EE0` nur noch Markenfarbe fuer Linien/Balken. Gruen/Rot/Info-Buttons abgedunkelt (weisse Schrift >= 5:1).
+- Dark Mode: handgepflegte Dunkel-Tokens statt reiner Auto-Umrechnung; startet nach Systemeinstellung (prefers-color-scheme), der Menue-Schalter ueberschreibt und wird gespeichert. Token-Bloecke (`data-auth-tokens`) werden nicht mehr automatisch umgerechnet, die Auto-Umrechnung bleibt als Fallback fuer App-eigene Farben (neutrale Flaechen jetzt im Schiefer-Ton der Tokens).
+- `color-scheme: light dark` (native Formularelemente/Scrollbalken folgen dem Modus).
+
 ## v3.2.2
 
 - `.ds-fab` sitzt unten rechts (statt unten links).

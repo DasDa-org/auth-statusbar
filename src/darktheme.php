@@ -49,7 +49,7 @@ if (!function_exists('auth_dasda_theme_apply')) {
         }, $html, 1);
 
         $inject = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap">'
-            . '<style id="auth-dasda-theme">' . $css . '</style>';
+            . '<style id="auth-dasda-theme" data-auth-tokens>' . $css . '</style>';
 
         return (string) preg_replace('~</head>~i', str_replace(['\\', '$'], ['\\\\', '\\$'], $inject) . '</head>', $html, 1);
     }
@@ -83,9 +83,19 @@ if (!function_exists('auth_darktheme_build')) {
     function auth_darktheme_build(string $html): string
     {
         $source = '';
-        if (preg_match_all('~<style\b[^>]*>(.*?)</style>~is', $html, $m)) {
-            foreach ($m[1] as $block) {
-                $source .= $block . "\n";
+        $reserved = [];
+        if (preg_match_all('~<style\b([^>]*)>(.*?)</style>~is', $html, $m, PREG_SET_ORDER)) {
+            foreach ($m as $hit) {
+                // Zentrale Token-Stile (Design-System, Theme) enthalten ihre Dunkel-Werte selbst: nicht automatisch umrechnen
+                if (stripos($hit[1], 'data-auth-tokens') !== false) {
+                    if (preg_match_all('~(--[\w-]+)\s*:~', $hit[2], $vm)) {
+                        foreach ($vm[1] as $name) {
+                            $reserved[$name] = true;
+                        }
+                    }
+                    continue;
+                }
+                $source .= $hit[2] . "\n";
             }
         }
         if (preg_match_all('~<link\b[^>]*rel=["\']stylesheet["\'][^>]*>~i', $html, $lm)) {
@@ -121,13 +131,13 @@ if (!function_exists('auth_darktheme_build')) {
         $inlineKeys = array_keys($inline);
         sort($inlineKeys);
 
-        $key = md5($source . "\0" . implode("\0", $inlineKeys) . "\0v6");
+        $key = md5($source . "\0" . implode("\0", $inlineKeys) . "\0v8" . implode(',', array_keys($reserved)));
         $cacheFile = sys_get_temp_dir() . '/auth-darktheme-' . $key . '.css';
         if (is_file($cacheFile)) {
             return (string) file_get_contents($cacheFile);
         }
 
-        $css = auth_dt_generate($source, $inlineKeys);
+        $css = auth_dt_generate($source, $inlineKeys, array_keys($reserved));
         @file_put_contents($cacheFile, $css, LOCK_EX);
 
         return $css;
@@ -139,20 +149,20 @@ if (!function_exists('auth_darktheme_build')) {
 // ---------------------------------------------------------------------------------------------------------
 
 if (!function_exists('auth_dt_generate')) {
-    function auth_dt_generate(string $source, array $inlineStyles): string
+    function auth_dt_generate(string $source, array $inlineStyles, array $reservedVars = []): string
     {
         $P = 'html.auth-dark:not(#authdt)';
         $source = (string) preg_replace('~/\*.*?\*/~s', '', $source);
 
         $roles = auth_dt_var_roles($source);
         $out = 'html.auth-dark{color-scheme:dark}'
-            . $P . ' body{background-color:#121212!important;color:#e5e7eb}'
+            . $P . ' body{background-color:#0f141a!important;color:#e6edf3}'
             . $P . ' ::placeholder{color:#8b95a5}';
         $out .= auth_dt_walk($source, $P, $roles);
 
         // Variablen, die nur zur Laufzeit per JS gesetzt werden (nicht im CSS definiert): Dunkel-Standard je Rolle
         preg_match_all('~(--[\w-]+)\s*:~', $source, $defMatches);
-        $defined = array_flip($defMatches[1]);
+        $defined = array_flip($defMatches[1]) + array_flip($reservedVars);
         $defaults = ['bg' => '#1e1e1e', 'fg' => '#e5e7eb', 'border' => '#3a3a3a'];
         $varDefaults = '';
         foreach ($roles as $name => $use) {
@@ -723,15 +733,27 @@ if (!function_exists('auth_dt_map_color')) {
             if ($s > 0.4 && $l >= 0.2 && $l < 0.72) {
                 $l2 = $l; // kraeftige Akzentfarben (Buttons, Status) bleiben
             } elseif ($l >= 0.5) {
-                $l2 = 0.08 + ($l - 0.5) * 0.16;
-                $s = $s > 0.2 ? $s * 0.4 : $s;
+                if ($s <= 0.2) {
+                    // Neutrale Flaechen: Schiefer-Ton wie die --ds-Tokens (#182029), damit alles zusammenpasst
+                    $h = 0.583;
+                    $s = 0.26;
+                    $l2 = 0.07 + ($l - 0.5) * 0.11;
+                } else {
+                    $l2 = 0.08 + ($l - 0.5) * 0.16;
+                    $s = $s * 0.4;
+                }
             } else {
                 $l2 = $l;
             }
         } elseif ($role === 'border') {
             if ($l >= 0.5) {
                 $l2 = 0.20 + ($l - 0.5) * 0.12;
-                $s = $s * 0.5;
+                if ($s <= 0.2) {
+                    $h = 0.583;
+                    $s = 0.25;
+                } else {
+                    $s = $s * 0.5;
+                }
             } else {
                 $l2 = $l;
             }

@@ -32,7 +32,7 @@ if (!function_exists('auth_darkmode_head')) {
         $emitted = true;
 
         return '<style>' . auth_design_system_read('darkmode.css') . '</style>'
-            . '<script>try{if(localStorage.getItem("auth_darkmode")==="1"){document.documentElement.classList.add("auth-dark");}}catch(e){}</script>';
+            . '<script>try{var s=localStorage.getItem("auth_darkmode");if(s==="1"||(s===null&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("auth-dark");}}catch(e){}</script>';
     }
 }
 
@@ -50,7 +50,7 @@ if (!function_exists('auth_design_system_head')) {
         }
         $emitted = true;
 
-        return '<style>' . auth_design_system_read('design-system.css') . '</style>'
+        return '<style data-auth-tokens>' . auth_design_system_read('design-system.css') . '</style>'
             . auth_darkmode_head()
             . '<script>' . auth_design_system_read('design-system.js') . '</script>';
     }

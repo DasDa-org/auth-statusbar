@@ -8,7 +8,31 @@
  */
 
 :root {
-    color-scheme: only light;
+    color-scheme: light;
+    /* ---- Semantische Farbtokens (Hell). Dunkel-Werte stehen weiter unten unter html.auth-dark.
+       Alle Text/Grund-Paare erfuellen WCAG AA (Text >= 4,5:1, Rahmen von Eingaben >= 3:1). ---- */
+    --ds-bg: #f3f5f7;
+    --ds-surface: #ffffff;
+    --ds-surface-2: #f6f8fa;
+    --ds-border: #dde3ea;
+    --ds-border-strong: #8393a5;
+    --ds-text: #1c2430;
+    --ds-text-muted: #526173;
+    --ds-accent: #0071a8;          /* Buttons/Links; weisser Text darauf 5,2:1 */
+    --ds-accent-hover: #005f8c;
+    --ds-accent-text: #ffffff;
+    --ds-accent-soft: #e6f5fc;
+    --ds-success-bg: #e6f4ea;
+    --ds-success-fg: #17622f;
+    --ds-warn-bg: #fff4d6;
+    --ds-warn-fg: #7a4a00;
+    --ds-danger-bg: #fde8e8;
+    --ds-danger-fg: #9b1c1c;
+    --ds-header: #1a1a1a;
+    --ds-hover: rgba(15, 23, 42, 0.06);
+    --ds-focus: #0071a8;
+    --ds-overlay: rgba(26, 26, 26, 0.6);
+
     /* Spacing-Raster (4px-Basis) */
     --space-1: 4px;
     --space-2: 8px;
@@ -23,36 +47,67 @@
     --radius-lg: 12px;
     --radius-xl: 14px;
 
-    --shadow-card: 0 20px 60px rgba(0, 0, 0, 0.18);
-    --shadow-modal: 0 24px 70px rgba(0, 0, 0, 0.35);
+    --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.06), 0 6px 20px rgba(15, 23, 42, 0.10);
+    --shadow-modal: 0 12px 40px rgba(15, 23, 42, 0.30);
 
-    /* DAS-DA-Farbwelt */
+    /* DAS-DA-Farbwelt: #009EE0 ist die Markenfarbe fuer Flaechen/Linien (Balken, Rahmen),
+       nicht fuer Buttons/Text mit weisser Schrift (siehe --ds-accent). */
     --brand: #009EE0;
-    --brand-hover: #0088c7;
+    --brand-hover: #005f8c;
     --brand-dark: #001931;
     --brand-light: #e6f5fc;
     --font-ui: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
     --tap-min: 44px;
 
-    /* Farbtokens (Namen aus den bestehenden Apps übernommen) */
-    --color-primary: #009EE0;
-    --color-danger: #f44336;
-    --color-success: #4CAF50;
-    --border-color: #ddd;
+    /* Farbtokens (Namen aus den bestehenden Apps übernommen, Werte folgen den --ds-Tokens) */
+    --color-primary: var(--ds-accent);
+    --color-danger: #c62828;
+    --color-success: #2e7d32;
+    --border-color: var(--ds-border);
 
-    --btn-primary: #009EE0;
-    --btn-secondary: #FFFFFF;
-    --btn-success: #4CAF50;
-    --btn-danger: #d32f2f;
-    --btn-info: #2196F3;
+    --btn-primary: var(--ds-accent);
+    --btn-secondary: var(--ds-surface);
+    --btn-success: #2e7d32;
+    --btn-danger: #c62828;
+    --btn-info: #1565c0;
     --btn-disabled: #cccccc;
-    --btn-primary-hover: #0088c7;
-    --btn-success-hover: #45a049;
-    --btn-danger-hover: #a91f1f;
-    --btn-info-hover: #0b7dda;
+    --btn-primary-hover: var(--ds-accent-hover);
+    --btn-success-hover: #256628;
+    --btn-danger-hover: #a61f1f;
+    --btn-info-hover: #0f4f99;
 
-    --text-body: #1c2430;
-    --text-muted: #526173;
+    --text-body: var(--ds-text);
+    --text-muted: var(--ds-text-muted);
+}
+
+/* ===== Dunkel (Klasse auth-dark: Systemvorgabe oder Menue-Schalter, siehe auth_darkmode_head) ===== */
+html.auth-dark {
+    color-scheme: dark;
+    --ds-bg: #0f141a;
+    --ds-surface: #182029;
+    --ds-surface-2: #1e2833;
+    --ds-border: #2a3542;
+    --ds-border-strong: #5b6b7e;
+    --ds-text: #e6edf3;
+    --ds-text-muted: #a3b1c2;
+    --ds-accent: #38b6f0;          /* Text darauf (--ds-accent-text) 7,4:1 */
+    --ds-accent-hover: #6cc8f5;
+    --ds-accent-text: #06202e;
+    --ds-accent-soft: #12303f;
+    --ds-success-bg: #12301d;
+    --ds-success-fg: #7ddc9b;
+    --ds-warn-bg: #33260a;
+    --ds-warn-fg: #f5c76b;
+    --ds-danger-bg: #3a1717;
+    --ds-danger-fg: #ff9d9d;
+    --ds-header: #0a0e13;
+    --ds-hover: rgba(255, 255, 255, 0.08);
+    --ds-focus: #6cc8f5;
+    --ds-overlay: rgba(0, 0, 0, 0.7);
+    --brand-light: var(--ds-accent-soft);
+    --btn-disabled: #3a4552;
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.45);
+    --shadow-modal: 0 12px 40px rgba(0, 0, 0, 0.7);
 }
 
 /* ===== Buttons ===== */
@@ -77,23 +132,22 @@
 
 .btn-primary {
     background: var(--btn-primary);
-    color: white;
+    color: var(--ds-accent-text);
 }
 
 .btn-primary:hover {
     background: var(--btn-primary-hover);
-    box-shadow: 0 5px 15px rgba(0, 158, 224, 0.3);
 }
 
 .btn-secondary {
     background: var(--btn-secondary);
-    color: #333;
-    border: 1px solid var(--border-color);
+    color: var(--ds-text);
+    border: 1px solid var(--ds-border-strong);
 }
 
 .btn-secondary:hover {
-    background: #f5f5f5;
-    border-color: #bbb;
+    background: var(--ds-hover);
+    border-color: var(--ds-text-muted);
 }
 
 .btn-danger {
@@ -112,7 +166,6 @@
 
 .btn-success:hover {
     background: var(--btn-success-hover);
-    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
 }
 
 .btn-small {
@@ -126,11 +179,11 @@
  * weiße Schrift, ein currentColor-Ring wäre dort unsichtbar.
  */
 .btn-default {
-    box-shadow: 0 0 0 2px white, 0 0 0 4px #0088c7;
+    box-shadow: 0 0 0 2px var(--ds-surface), 0 0 0 4px var(--ds-focus);
 }
 
 .btn:focus-visible {
-    outline: 2px solid #0088c7;
+    outline: 2px solid var(--ds-focus);
     outline-offset: 2px;
 }
 
@@ -143,7 +196,7 @@
        hohem z-index und würden sonst Buttons am oberen/unteren Rand eines
        hohen Dialogs (v.a. auf kurzen mobilen Viewports) überdecken. */
     inset: var(--auth-sb-top-h, 40px) 0 var(--auth-sb-h, 40px) 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--ds-overlay);
     z-index: 1000;
     align-items: center;
     justify-content: center;
@@ -155,7 +208,8 @@
 }
 
 .modal-content {
-    background: white;
+    background: var(--ds-surface);
+    color: var(--ds-text);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-modal);
     max-width: 480px;
@@ -168,7 +222,7 @@
     padding: var(--space-4) var(--space-5);
     font-size: 1.15em;
     font-weight: 600;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--ds-border);
 }
 
 .modal-body {
@@ -190,7 +244,7 @@
  */
 .modal-footer {
     padding: var(--space-4) var(--space-5);
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--ds-border);
     display: flex;
     justify-content: flex-end;
     gap: var(--space-2);
@@ -216,6 +270,7 @@
     border-radius: var(--radius-md);
     padding: var(--space-3) var(--space-4);
     box-shadow: var(--shadow-card);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     display: flex;
     align-items: center;
     gap: var(--space-3);
@@ -250,7 +305,7 @@
 .toast-close {
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.85);
     cursor: pointer;
     padding: 0;
     font-size: 1.1em;
@@ -293,9 +348,11 @@
 .modal-body input[type="email"] {
     width: 100%;
     padding: var(--space-2) var(--space-3);
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--ds-border-strong);
     border-radius: var(--radius-md);
     font-size: 1rem;
+    background: var(--ds-surface);
+    color: var(--ds-text);
 }
 
 .ds-form {
@@ -339,7 +396,7 @@
 }
 
 .btn-icon:hover {
-    background: rgba(0, 0, 0, 0.06);
+    background: var(--ds-hover);
     color: var(--text-body);
 }
 
@@ -360,18 +417,18 @@
     width: 100%;
     min-height: 40px;
     padding: var(--space-2) 40px var(--space-2) 38px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--ds-border-strong);
     border-radius: var(--radius-md);
-    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23526173' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") no-repeat 11px center / 18px 18px;
+    background: var(--ds-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23778699' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") no-repeat 11px center / 18px 18px;
     font: inherit;
     font-size: 1rem;
     color: var(--text-body);
 }
 
 .ds-search input:focus {
-    outline: 2px solid var(--brand);
+    outline: 2px solid var(--ds-focus);
     outline-offset: 0;
-    border-color: var(--brand);
+    border-color: var(--ds-focus);
 }
 
 .ds-search .ds-search-clear {
@@ -394,7 +451,7 @@
     gap: var(--space-3);
     flex-wrap: wrap;
     padding: var(--space-3) var(--space-4);
-    background: var(--brand-dark);
+    background: var(--ds-header);
     color: #fff;
     border-radius: var(--radius-lg);
 }
@@ -415,7 +472,9 @@
 
 /* ===== Karte ===== */
 .ds-card {
-    background: rgba(255, 255, 255, 0.97);
+    background: var(--ds-surface);
+    color: var(--ds-text);
+    border: 1px solid var(--ds-border);
     border-radius: var(--radius-xl);
     padding: var(--space-4);
     box-shadow: var(--shadow-card);
@@ -430,7 +489,7 @@
 .ds-table th,
 .ds-table td {
     padding: var(--space-2) var(--space-3);
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--ds-border);
     text-align: left;
     vertical-align: middle;
 }
@@ -483,7 +542,7 @@
 
     .ds-table tr {
         padding: var(--space-2) 0;
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: 1px solid var(--ds-border);
     }
 
     .ds-table td {
@@ -522,11 +581,11 @@
 
 .ds-sort-handle:hover {
     background: var(--brand-light);
-    color: var(--brand-dark);
+    color: var(--ds-text);
 }
 
 .ds-sort-handle:focus-visible {
-    outline: 2px solid var(--brand);
+    outline: 2px solid var(--ds-focus);
     outline-offset: 1px;
 }
 
@@ -585,8 +644,8 @@ body.ds-sorting * {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: var(--brand, #009EE0);
-    color: #ffffff;
+    background: var(--ds-accent);
+    color: var(--ds-accent-text);
     cursor: pointer;
     box-shadow: 0 6px 18px rgba(0, 25, 49, 0.35);
     transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
@@ -595,7 +654,7 @@ body.ds-sorting * {
 }
 
 .ds-fab:hover {
-    background: var(--brand-hover, #0088c7);
+    background: var(--ds-accent-hover);
     transform: scale(1.06);
     box-shadow: 0 8px 22px rgba(0, 25, 49, 0.42);
 }
@@ -605,7 +664,7 @@ body.ds-sorting * {
 }
 
 .ds-fab:focus-visible {
-    outline: 3px solid var(--brand-dark, #001931);
+    outline: 3px solid var(--ds-focus);
     outline-offset: 3px;
 }
 

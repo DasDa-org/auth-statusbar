@@ -3,14 +3,18 @@
  * Wird von auth_darktheme_buffer() (darktheme.php) in jede ausgelieferte HTML-Seite eingefuegt
  * und setzt dabei die Klasse theme-dasda am <html>. Anwendungsspezifische Feinheiten stehen
  * weiterhin in der design-dasda.css der jeweiligen Anwendung.
+ *
+ * Ab v3.5.0: schlank und dezent gerundet (6 px), alle Farben ueber die --ds-Tokens aus design-system.css
+ * (Hell/Dunkel, Kontrast nach WCAG AA). Markenkern bleibt: dunkles Kopfband mit Schraegkante und blauer Akzentbalken.
+ * Dieser Block wird NICHT von der automatischen Dunkel-Umrechnung (darktheme.php) erfasst.
  */
 
-/* ---------- Eckig ueberall: Variablen, Statusleiste, Anmeldeseiten, gaengige Komponenten ---------- */
+/* ---------- Radien: dezent gerundet statt eckig ---------- */
 html.theme-dasda {
-    --radius-sm: 0;
-    --radius-md: 0;
-    --radius-lg: 0;
-    --radius-xl: 0;
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+    --radius-xl: 10px;
 }
 
 html.theme-dasda [class*="auth-sb"],
@@ -21,8 +25,6 @@ html.theme-dasda .button,
 html.theme-dasda button,
 html.theme-dasda [class*="btn"],
 html.theme-dasda [class*="button"],
-html.theme-dasda [class*="card"],
-html.theme-dasda [class*="modal"],
 html.theme-dasda [class*="dialog"],
 html.theme-dasda [class*="popup"],
 html.theme-dasda [class*="dropdown"],
@@ -30,25 +32,29 @@ html.theme-dasda [class*="toast"],
 html.theme-dasda [class*="badge"],
 html.theme-dasda [class*="pill"],
 html.theme-dasda [class*="chip"],
-html.theme-dasda [class*="panel"],
 html.theme-dasda [class*="tab-"],
 html.theme-dasda .guest-nav a,
 html.theme-dasda input:not([type="radio"]):not([type="checkbox"]),
 html.theme-dasda select,
 html.theme-dasda textarea {
-    border-radius: 0 !important;
+    border-radius: var(--radius-md) !important;
 }
 
+html.theme-dasda [class*="card"],
+html.theme-dasda [class*="modal"],
+html.theme-dasda [class*="panel"] {
+    border-radius: var(--radius-lg) !important;
+}
 
 html.theme-dasda body {
     font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f3f5f7;
-    color: #333333;
+    background: var(--ds-bg);
+    color: var(--ds-text);
 }
 
 /* ---------- Kopfband ---------- */
 html.theme-dasda .ds-page-header {
-    background: #1a1a1a;
+    background: var(--ds-header);
     border-radius: 0;
     padding: 18px 20px 34px;
     clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
@@ -66,27 +72,26 @@ html.theme-dasda .ds-page-header h1::after {
     display: block;
     width: 72px;
     height: 4px;
-    background: #009EE0;
+    background: var(--brand);
     margin-top: 10px;
 }
 
 /* ---------- Karten ---------- */
 html.theme-dasda .ds-card {
-    border-radius: 0;
-    background: #ffffff;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-border);
+    box-shadow: var(--shadow-card);
 }
 
 html.theme-dasda .gruppe-kopf {
-    background: #1a1a1a;
+    background: var(--ds-header);
     border-bottom: none;
-    border-left: 4px solid #009EE0;
+    border-left: 4px solid var(--brand);
 }
 
 html.theme-dasda .gruppe-kopf .toggle {
     color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+    font-weight: 600;
 }
 
 html.theme-dasda .gruppe-kopf .btn-icon,
@@ -101,20 +106,12 @@ html.theme-dasda .gruppe-kopf .ds-sort-handle:hover {
 }
 
 html.theme-dasda .ds-table th {
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    font-size: 0.8em;
-    color: #1a1a1a;
+    font-weight: 600;
+    font-size: 0.85em;
+    color: var(--ds-text-muted);
 }
 
 /* ---------- Buttons und Eingaben ---------- */
-html.theme-dasda .btn,
-html.theme-dasda .btn-icon,
-html.theme-dasda .design-wahl,
-html.theme-dasda .ds-sort-handle {
-    border-radius: 0;
-}
-
 html.theme-dasda .btn,
 html.theme-dasda .design-wahl,
 html.theme-dasda button {
@@ -122,9 +119,7 @@ html.theme-dasda button {
 }
 
 html.theme-dasda .btn {
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    font-weight: 600;
     box-shadow: none;
 }
 
@@ -135,41 +130,31 @@ html.theme-dasda .btn:hover {
 html.theme-dasda input:not([type="radio"]):not([type="checkbox"]),
 html.theme-dasda select,
 html.theme-dasda textarea {
-    border-radius: 0 !important;
     font-family: inherit;
+}
+
+html.theme-dasda :focus-visible {
+    outline-color: var(--ds-focus);
 }
 
 /* ---------- Dialoge und Meldungen ---------- */
 html.theme-dasda .modal {
-    background: rgba(26, 26, 26, 0.6);
+    background: var(--ds-overlay);
 }
 
 html.theme-dasda .modal-content {
-    border-radius: 0;
-    border-top: 6px solid #009EE0;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    border-top: 4px solid var(--brand);
+    box-shadow: var(--shadow-modal);
     font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 html.theme-dasda .modal-header {
-    text-transform: uppercase;
     font-weight: 700;
-    letter-spacing: 0.03em;
-    color: #1a1a1a;
+    color: var(--ds-text);
     border-bottom: none;
 }
 
-html.theme-dasda .modal-header::after {
-    content: '';
-    display: block;
-    width: 56px;
-    height: 4px;
-    background: #009EE0;
-    margin-top: 8px;
-}
-
 html.theme-dasda .toast {
-    border-radius: 0;
     font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
