@@ -7,7 +7,7 @@ Ausgangslage: Das Projekt hat ein `www/auth/view.php` mit einer eigenen, hartkod
 
    ```bash
    git checkout -b feat/shared-statusbar
-   git submodule add https://github.com/WiSanders-org/auth-statusbar.git www/auth/statusbar
+   git submodule add https://github.com/DasDa-org/auth-statusbar.git www/auth/statusbar
    git config -f .gitmodules submodule.www/auth/statusbar.branch main
    ```
 

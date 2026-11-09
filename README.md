@@ -15,7 +15,7 @@ fertige, bereits escapte Strings/URLs übergeben und rendert nur HTML/CSS.
 ## Einbindung (Git-Submodule)
 
 ```bash
-git submodule add https://github.com/WiSanders-org/auth-statusbar.git www/auth/statusbar
+git submodule add https://github.com/DasDa-org/auth-statusbar.git www/auth/statusbar
 git config -f .gitmodules submodule.www/auth/statusbar.branch main
 git add .gitmodules www/auth/statusbar
 git commit -m "chore: gemeinsame Auth-Statusleiste als Submodule einbinden"
